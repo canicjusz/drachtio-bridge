@@ -2,7 +2,7 @@ const Srf = require('drachtio-srf');
 require('dotenv').config()
 const Retell = require('retell-sdk');
 const srf = new Srf();
-const client = new Retell({apiKey: process.env.RETELLAUTH});
+const client = new Retell({apiKey: process.env.RETELL_AUTH});
 DEFAULT_EXPIRES = 3600;
 
 srf.connect({
