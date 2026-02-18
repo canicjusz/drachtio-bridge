@@ -71,15 +71,23 @@ srf.on('connect', (err, hostport) => {
 // Handle Incoming Calls with Security Filter
 srf.invite(async (req, res) => {
     const sourceIp = req.source_address;
+    const callId = req.get('Call-ID');
 
-    // SECURITY: Reject ghost calls from scanners
-    if (sourceIp !== SIP_REALM) {
-        logger.warn(`BLOCKED: SIP Scanner attempt from ${sourceIp}`);
-        return res.send(403);
+    logger.info(`[INVITE] New call attempt. Call-ID: ${callId} from IP: ${sourceIp}`);
+
+    // --- FIXED SECURITY CHECK ---
+    // We compare against the IP (SIP_IPV4), not the Realm/Domain.
+    if (sourceIp !== SIP_IPV4) {
+        logger.warn(`[SECURITY] REJECTED: Source IP ${sourceIp} does not match Provider IP ${SIP_IPV4}`);
+        return res.send(403, 'Forbidden');
     }
+
+    logger.info(`[SECURITY] PASSED: Verified provider IP ${sourceIp}`);
 
     try {
         const from = req.callingNumber;
+        logger.info(`[RETELL] Registering call with Retell... From: ${from}`);
+
         const phoneCallResponse = await client.call.registerPhoneCall({
             agent_id: RETELL_AGENT_ID,
             from_number: from,
@@ -88,19 +96,30 @@ srf.invite(async (req, res) => {
         });
 
         const sipUri = `sip:${phoneCallResponse.call_id}@sip.retellai.com`;
+        logger.info(`[RETELL] Success. Call ID: ${phoneCallResponse.call_id}. Bridging...`);
 
+        // 3. Create B2BUA
         srf.createB2BUA(req, res, sipUri, { localSdpB: req.body })
             .then(({ uas, uac }) => {
-                uas.on('destroy', () => uac.destroy());
-                uac.on('destroy', () => uas.destroy());
+                logger.info(`[BRIDGE] Call Connected! Leg A (Provider) <-> Leg B (Retell)`);
+
+                uas.on('destroy', () => {
+                    logger.info(`[BRIDGE] Leg A terminated the call. Hanging up Leg B.`);
+                    uac.destroy();
+                });
+                uac.on('destroy', () => {
+                    logger.info(`[BRIDGE] Leg B (Retell) terminated the call. Hanging up Leg A.`);
+                    uas.destroy();
+                });
             })
             .catch((err) => {
-                logger.error('B2BUA Bridge Failed:', err);
+                logger.error(`[BRIDGE] FAILED: ${err.message}`);
                 if (!res.finalResponseSent) res.send(500);
             });
     } catch (err) {
-        logger.error('Retell Registration Error:', err);
-        res.send(500);
+        logger.error(`[RETELL] Registration Error: ${err.message}`);
+        // If Retell fails to register the call (e.g. concurrency limit), reject the SIP call
+        res.send(503, 'Service Unavailable');
     }
 });
 
