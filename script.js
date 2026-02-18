@@ -22,7 +22,8 @@ const {
     RETELL_AGENT_ID, RETELL_NUMBER,
     FB_API_VERSION, FB_PAGE_ID, FB_ACCESS_TOKEN,
     MANAGER_ID, RECEPTION_ID,
-    PORT = 8080
+    PORT = 8080,
+    DRACHTIO_SECRET
 } = process.env;
 
 const RECIPIENT_TYPES = { event_manager: "Event Manager", recepcja: "Recepcja" };
@@ -33,7 +34,7 @@ const RECIPIENT_IDS = { event_manager: MANAGER_ID, recepcja: RECEPTION_ID };
 srf.connect({
     host: '127.0.0.1',
     port: 9022,
-    secret: 'cymru'
+    secret: DRACHTIO_SECRET
 });
 
 const aor = `sip:${SIP_USERNAME}@${SIP_REALM}`;
