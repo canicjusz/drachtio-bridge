@@ -145,6 +145,11 @@ app.post("/webhook-retell", async (req, res) => {
     }
 });
 
+app.get('/health', (req, res) => {
+    logger.info('Health check ping received');
+    res.status(200).send('<h1>Hello World!</h1><p>The server is alive and reachable via ngrok.</p>');
+});
+
 // --- 4. Start Server ---
 server.listen(PORT, () => {
     logger.info(`Combined Server listening at http://localhost:${PORT}`);

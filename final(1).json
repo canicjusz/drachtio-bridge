@@ -1,0 +1,5090 @@
+{
+  "agent_id": "agent_5fe29138629401458ec203b912",
+  "channel": "voice",
+  "last_modification_timestamp": 1771327039869,
+  "agent_name": "final",
+  "response_engine": {
+    "type": "conversation-flow",
+    "version": 4,
+    "conversation_flow_id": "conversation_flow_628897b0efb8"
+  },
+  "language": "pl-PL",
+  "data_storage_setting": "everything",
+  "opt_in_signed_url": false,
+  "end_call_after_silence_ms": 20000,
+  "post_call_analysis_data": [
+    {
+      "name": "receiver_type",
+      "description": "Do kogo należy przekazać informacje? Jeżeli nie trzeba przekazywać żadnych informacji zaznacz \"none\"",
+      "type": "enum",
+      "choices": [
+        "recepcja",
+        "event_manager",
+        "none"
+      ],
+      "required": false
+    }
+  ],
+  "version": 4,
+  "is_transfer_cf": false,
+  "is_published": false,
+  "version_title": "v1",
+  "post_call_analysis_model": "gpt-5-mini",
+  "pii_config": {
+    "mode": "post_call",
+    "categories": []
+  },
+  "analysis_summary_prompt": "Jakie informacje agent chce przekazać do recepcji/Pani Event Manager",
+  "is_public": true,
+  "voice_id": "11labs-Emily",
+  "voice_model": "eleven_turbo_v2_5",
+  "voice_temperature": 1,
+  "voice_speed": 1,
+  "volume": 1,
+  "max_call_duration_ms": 297000,
+  "interruption_sensitivity": 0.9,
+  "responsiveness": 1,
+  "stt_mode": "accurate",
+  "custom_stt_config": {
+    "provider": "deepgram",
+    "endpointing_ms": 1000
+  },
+  "allow_user_dtmf": true,
+  "user_dtmf_options": {},
+  "denoising_mode": "noise-cancellation",
+  "conversation_flow": {
+    "is_transfer_cl": false,
+    "conversation_flow_id": "conversation_flow_628897b0efb8",
+    "version": 4,
+    "global_prompt": "Jesteś wirtualną sekretarką “Stara Szkoła Boutique Hotel” wcześniej znanego jako “Hotel Wartosław”. Połączenia trafiło do ciebie dlatego, że aktualnie recepcja jest zajęta. Jednak jeżeli klient upiera się o kontakt z prawdziwym człowiekiem, zapewnij go, że recepcja oddzwoni w wolnej chwili.\n\nGdy dzwoniący zadaje jakieś pytanie w trakcie procesu zbierania informacji, KONIECZNIE ODPOWIEDZ na jego pytanie, dopiero po odpowiedzeniu na pytanie możesz kontynuować proces zbierania informacji. W innym przypadku dzwoniący będzie się czuć ignorowany.\n\nGdy dzwoniący pyta o dostępność pokoi, stolika, możliwości organizacji na dany termin zawsze odpowiadaj twierdząco i podkreśl, że dzwoniący dostanie telefon zwrotny z ostatecznym potwierdzeniem.\n\nImprezę definiujemy jako urodziny (np. osiemnastki), warsztaty, szkolenia, imprezy firmowe (np. wigilie), rocznice, wesela i inne eventy okolicznościowe.\n\nPrzy organizacji, anulowaniu lub modyfikacji imprezy ZAWSZE informuj użytkownika o przekazaniu informacji do Pani Manager.\n\nNatomiast w przypadku rezerwacji, anulowaniu lub modyfikacji stolików na restauracji i pobytów w hotelu ZAWSZE informuj użytkownika o przekazaniu informacji do recepcji.\n\nMożesz TYLKO I WYŁĄCZNIE konczyć rozmowę w następujących przypadkach:\n- po upewnieniu się, że dzwoniący nie ma więcej pytań,\n- dzwoniący sam się żegna\n- dzwoniący chce rozmawiać z człowiekiem\n\nPod żadnym pozorem NIE UŻYWAJ backchanelling'u. w twoich odpowiedziach nie zawieraj zwrotów typu \"umm\", \"uh\". Mają być one zwięzłe.",
+    "nodes": [
+      {
+        "instruction": {
+          "type": "static_text",
+          "text": "Dzień dobry, z tej strony wirtualna asystentka Hotelu Stara Szkoła. Połączenie jest nagrywane. Proszę przedstawić swoją sprawę, a ja przekaże wszystko odpowiedniej osobie."
+        },
+        "name": "Welcome Node",
+        "edges": [
+          {
+            "destination_node_id": "node-1766668866003",
+            "id": "edge-1766668516433-uufdlfpg9",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik zadaje pytanie / ma pewną sprawę"
+            }
+          },
+          {
+            "destination_node_id": "node-1766668734821",
+            "id": "edge-1766668552502-0u5atm03f",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik chce porozmawiać z człowiekiem"
+            }
+          }
+        ],
+        "start_speaker": "agent",
+        "id": "start-node-1765130581633",
+        "type": "conversation",
+        "display_position": {
+          "x": 136.1288635163636,
+          "y": 317.0350519686234
+        }
+      },
+      {
+        "instruction": {
+          "type": "static_text",
+          "text": "Dobrze, rozumiem. Recepcja jest aktualnie zajęta, ale oddzwoni jak najszybciej."
+        },
+        "name": "End Call",
+        "global_node_setting": {
+          "condition": "Dzwoniący chce rozmawiać z człowiekiem."
+        },
+        "id": "node-1766668734821",
+        "type": "end",
+        "speak_during_execution": true,
+        "display_position": {
+          "x": 548.064490173691,
+          "y": 967.0872367858943
+        }
+      },
+      {
+        "name": "Logic Split Node",
+        "edges": [
+          {
+            "destination_node_id": "node-1766669275573",
+            "id": "edge-1766668881672-3ad4o430m",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik ma sprawę związaną z hotelem (np. rezerwacją pokoju)"
+            }
+          },
+          {
+            "destination_node_id": "node-1766671365974",
+            "id": "edge-1766669405080-61b533cxb",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik ma sprawę związaną z restauracją (np. stolikiem)"
+            }
+          },
+          {
+            "destination_node_id": "node-1766672131211",
+            "id": "edge-1766669414305-iqzndh9ex",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik ma sprawę związaną z jakimś eventem (imprezą, warsztatami, szkoleniem)"
+            }
+          }
+        ],
+        "else_edge": {
+          "destination_node_id": "node-1766823425457",
+          "id": "edge-1766668866003-90i8rs1zk",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "id": "node-1766668866003",
+        "type": "branch",
+        "display_position": {
+          "x": 591.3863253482605,
+          "y": 401.56474690227486
+        }
+      },
+      {
+        "instruction": {
+          "type": "prompt",
+          "text": "Pożegnaj się z dzwoniącym i życz mu dobrego dnia."
+        },
+        "name": "End Call",
+        "global_node_setting": {
+          "condition": "Możesz TYLKO I WYŁĄCZNIE konczyć rozmowę w następujących przypadkach:\n- po upewnieniu się, że dzwoniący nie ma więcej pytań, np. pytając \"Czy ma Pan jeszcze jakieś pytania?\",\n- dzwoniący sam się żegna\n- dzwoniący chce rozmawiać z człowiekiem\n\n"
+        },
+        "id": "node-1766669060284",
+        "type": "end",
+        "speak_during_execution": true,
+        "display_position": {
+          "x": 2963.9612144048697,
+          "y": 935.7050545186481
+        }
+      },
+      {
+        "name": "Logic Split Node",
+        "edges": [
+          {
+            "destination_node_id": "component-node-1766821051136",
+            "id": "edge-1766669512990-b5kj06yae",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce zarezerwować pokój"
+            }
+          },
+          {
+            "destination_node_id": "component-node-1766745701655",
+            "id": "edge-1766746035995-l4mum67io",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce zmodyfikować rezerwację, np. Skrócić lub przenieść pobyt"
+            }
+          },
+          {
+            "destination_node_id": "component-node-1767090999448",
+            "id": "edge-1766669571280-grxb9b2ls",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce anulować rezerwację"
+            }
+          }
+        ],
+        "id": "node-1766669275573",
+        "else_edge": {
+          "destination_node_id": "node-1766823384142",
+          "id": "edge-1766669275573-64cot3ehf",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "type": "branch",
+        "display_position": {
+          "x": 1007.2718794706759,
+          "y": -206.59200688420867
+        }
+      },
+      {
+        "instruction": {
+          "type": "prompt",
+          "text": "Przekażę te informacje do recepcji. Oddzwoni w tej sprawie, gdy tylko będzie dostępna"
+        },
+        "name": "Conversation",
+        "edges": [],
+        "id": "node-1766670473422",
+        "type": "conversation",
+        "display_position": {
+          "x": 2531.270352545021,
+          "y": 1671.5282359774376
+        },
+        "skip_response_edge": {
+          "destination_node_id": "node-1766818047938",
+          "id": "edge-1766817983230",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Skip response"
+          }
+        }
+      },
+      {
+        "name": "Logic Split Node",
+        "edges": [
+          {
+            "destination_node_id": "component-node-1767091081431",
+            "id": "edge-1766671407424-jbtz02vaf",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce zarezerwować stolik"
+            }
+          },
+          {
+            "destination_node_id": "component-node-1767091414021",
+            "id": "edge-1766671524607-awcwcgoc9",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce anulować rezerwację stolika"
+            }
+          },
+          {
+            "destination_node_id": "component-node-1766749401480",
+            "id": "edge-1766701159770-oghvumnh9",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce zmodyfikować rezerwację stolika (np. Zmienić liczbę gości, zmienić godzinę)"
+            }
+          }
+        ],
+        "id": "node-1766671365974",
+        "else_edge": {
+          "destination_node_id": "node-1766823425457",
+          "id": "edge-1766671365974-cq3jt49h5",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "type": "branch",
+        "display_position": {
+          "x": 1039.0580350554833,
+          "y": 1257.3503170595004
+        }
+      },
+      {
+        "name": "Logic Split Node",
+        "edges": [
+          {
+            "destination_node_id": "component-node-1767091557959",
+            "id": "edge-1766672131211-0-tfr4wzk8a",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce zorganizować jakąś imprezę, warsztaty, etc."
+            }
+          },
+          {
+            "destination_node_id": "component-node-1767091572657",
+            "id": "edge-1766672131211-1-jg3hsmcdu",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce anulować imprezę"
+            }
+          },
+          {
+            "destination_node_id": "component-node-1766751256391",
+            "id": "edge-1766776612423-8j8flq3ex",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Chce dokonać w imprezie (np. zmienić liczbę gości)"
+            }
+          }
+        ],
+        "id": "node-1766672131211",
+        "else_edge": {
+          "destination_node_id": "node-1766823425457",
+          "id": "else_edge-1766672131211-1-fdryhia0a",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "type": "branch",
+        "display_position": {
+          "x": 932.3978704061383,
+          "y": 2262.0126632323236
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_66c4b7131fb0",
+        "else_edge": {
+          "id": "component-node-1766745701655-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "Inna wiadomość - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1766745789150-193sabims",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik przekazał wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1766745701655",
+        "type": "component",
+        "display_position": {
+          "x": 1857,
+          "y": 48
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_0eb5226cd4df",
+        "else_edge": {
+          "id": "component-node-1766749401480-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "Inna wiadomość odnośnie stolika - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1766749411358-rt7tyj5wa",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Klient przekazał wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1766749401480",
+        "type": "component",
+        "display_position": {
+          "x": 1501,
+          "y": 1828
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_bbd090161546",
+        "else_edge": {
+          "id": "component-node-1766751256391-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "Inna wiadomość o imprezie - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766818440705",
+            "id": "edge-1766751345989-z25svc2qc",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzowniący przekazał wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1766751256391",
+        "type": "component",
+        "display_position": {
+          "x": 1758.7491556280313,
+          "y": 2690.760250839124
+        }
+      },
+      {
+        "name": "Conversation",
+        "edges": [
+          {
+            "destination_node_id": "node-1766668866003",
+            "id": "edge-1766818047938-2cbd7l6mv",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący odpowiada lub zadaje pytanie"
+            }
+          }
+        ],
+        "id": "node-1766818047938",
+        "type": "conversation",
+        "display_position": {
+          "x": 3082.6643440750045,
+          "y": 1698.4715532234484
+        },
+        "instruction": {
+          "type": "prompt",
+          "text": "Zapytaj się dzwoniącego, czy ma jeszcze jakieś pytanie"
+        }
+      },
+      {
+        "name": "Conversation",
+        "edges": [
+          {
+            "destination_node_id": "node-1766818047938",
+            "id": "edge-1766818440705-bcst0ngpz",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Describe the transition condition"
+            }
+          }
+        ],
+        "id": "node-1766818440705",
+        "type": "conversation",
+        "display_position": {
+          "x": 2356.4568319145906,
+          "y": 2414.8881273959255
+        },
+        "instruction": {
+          "type": "prompt",
+          "text": "Przekazuje te informacje do Pani Event Manager. Oddzwoni w tej sprawie, gdy tylko będzie dostępna"
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_d159114dbaf1",
+        "else_edge": {
+          "id": "component-node-1766821051136-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "user_modified_timestamp": 1766821277668,
+        "name": "rezerwacja pokoju - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1766821057569-85pzzkbmh",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący przekazał wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1766821051136",
+        "type": "component",
+        "display_position": {
+          "x": 1523,
+          "y": -662
+        }
+      },
+      {
+        "name": "Logic Split Node",
+        "edges": [
+          {
+            "destination_node_id": "component-node-1766745701655",
+            "id": "edge-1766823395308-k9negzo1a",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Użytkownik nie chce zarezerwować pokoju, przenieść pobyt, ale chce przekazać coś innego recepcji"
+            }
+          }
+        ],
+        "id": "node-1766823384142",
+        "else_edge": {
+          "destination_node_id": "node-1766823425457",
+          "id": "edge-1766823384142-5i52dr2fw",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "type": "branch",
+        "display_position": {
+          "x": 1437.6989239735922,
+          "y": 237.24252169172328
+        }
+      },
+      {
+        "instruction": {
+          "type": "prompt",
+          "text": "Odpowiedz na pytanie."
+        },
+        "name": "Conversation",
+        "edges": [
+          {
+            "id": "edge-1766823425457-gr4iprhj7",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Describe the transition condition"
+            }
+          }
+        ],
+        "id": "node-1766823425457",
+        "type": "conversation",
+        "display_position": {
+          "x": 1834.4846382593066,
+          "y": 545.813950263152
+        },
+        "skip_response_edge": {
+          "destination_node_id": "node-1766818047938",
+          "id": "edge-1766823450991",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Skip response"
+          }
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_10dd336f4fe8",
+        "else_edge": {
+          "id": "component-node-1767090999448-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "anulowanie rezerwacji - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1767091033383-prbho88fv",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Klient przekazał wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1767090999448",
+        "type": "component",
+        "display_position": {
+          "x": 1733,
+          "y": -348
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_59030fcd84f1",
+        "else_edge": {
+          "id": "component-node-1767091081431-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "rezerwacja stolika - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1767091427195-vjca9ipng",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący podaje wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1767091081431",
+        "type": "component",
+        "display_position": {
+          "x": 1802.5,
+          "y": 1273
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_b92246228943",
+        "else_edge": {
+          "id": "component-node-1767091414021-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "anulowanie stolika - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766670473422",
+            "id": "edge-1767091432600-yp943nko9",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący podaje wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1767091414021",
+        "type": "component",
+        "display_position": {
+          "x": 1723,
+          "y": 1528
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_3232105c1b98",
+        "else_edge": {
+          "id": "component-node-1767091557959-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "organizacja imprezy - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766818440705",
+            "id": "edge-1767091562061-9gro0sot1",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący podaje wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1767091557959",
+        "type": "component",
+        "display_position": {
+          "x": 1729,
+          "y": 2132
+        }
+      },
+      {
+        "component_type": "local",
+        "component_id": "component_db701814810b",
+        "else_edge": {
+          "id": "component-node-1767091572657-else-edge",
+          "transition_condition": {
+            "type": "prompt",
+            "prompt": "Else"
+          }
+        },
+        "name": "anulowanie imprezy - zbieranie informacji",
+        "edges": [
+          {
+            "destination_node_id": "node-1766818440705",
+            "id": "edge-1767091574922-4m9qvlwzg",
+            "transition_condition": {
+              "type": "prompt",
+              "prompt": "Dzwoniący podaje wszystkie informacje"
+            }
+          }
+        ],
+        "id": "component-node-1767091572657",
+        "type": "component",
+        "display_position": {
+          "x": 1711,
+          "y": 2440
+        }
+      }
+    ],
+    "components": [
+      {
+        "start_node_id": "conversation-1766706998026",
+        "nodes": [
+          {
+            "name": "Conversation",
+            "edges": [],
+            "id": "conversation-1766706998026",
+            "type": "conversation",
+            "display_position": {
+              "x": 550,
+              "y": 0
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Describe what the AI should say or do"
+            }
+          },
+          {
+            "name": "Exit Component",
+            "id": "component-end-1766706998026",
+            "type": "end",
+            "speak_during_execution": false,
+            "display_position": {
+              "x": 0,
+              "y": 350
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          }
+        ],
+        "user_modified_timestamp": 1766707006877,
+        "name": "Component L1",
+        "conversation_flow_component_id": "cf-component-1766706998024",
+        "tools": [],
+        "begin_tag_display_position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "start_node_id": "node-1766740708435",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 3731.209500512644,
+              "y": -42.075175098050345
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766742630319",
+                "id": "edge-1766740626162",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766740626162",
+            "type": "conversation",
+            "display_position": {
+              "x": 1988.2343444402454,
+              "y": -96.45264707873841
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Czy pobyt będzie ze śniadaniem?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766740688507",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje liczbę i rodzaj pokoi"
+                }
+              }
+            ],
+            "id": "conversation-1766740688507",
+            "type": "conversation",
+            "display_position": {
+              "x": 277.9334273490491,
+              "y": 20.74707440576627
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o rodzaj pokoi i ich liczbę"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "id": "node-1766740708435-edge-1766740720554-rwqggt65b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej ilość i rodzaj pokoi"
+                }
+              }
+            ],
+            "id": "node-1766740708435",
+            "else_edge": {
+              "id": "else-edge-1766740708435",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": -105.1684955186914,
+              "y": -148.11126898373445
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766740955658",
+                "id": "conversation-1766740855305-edge-1766740912463-6jlr6tt4z",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766740855305",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              }
+            ],
+            "id": "conversation-1766740855305",
+            "type": "conversation",
+            "display_position": {
+              "x": 753.1283325372398,
+              "y": -120.89508828565437
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz liczbę i rodzaj pokoi, aby potwierdzić poprawność zebranych informacji"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766740955658",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766740955658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1213.8062181435012,
+              "y": -166.37034157391895
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik termin rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na kiedy będzie rezerwacja"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766740626162",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1606.239408731987,
+              "y": 99.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz termin rezerwacji, aby potwierdzić poprawność zebranych informacji"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1964.767756605039,
+              "y": 364.3027353491579
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 3142.797955600418,
+              "y": -53.85900738746335
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Termin pobytu\n- Ilość i rodzaj pokoi\n- Czy pobyt ze śniadaniem\n- Imię i nazwisko na które dokonać rezerwację"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 3661.9292798180113,
+              "y": 253.99265079666728
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 2337.9792788640643,
+              "y": -115.29581788153624
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Na jakie imię i nazwisko będzie rezerwacja?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 2695.989408731987,
+              "y": 19.497414186375153
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 3048.767756605039,
+              "y": 416.3027353491579
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "user_modified_timestamp": 1766746497934,
+        "name": "Zbieranie informacji o rezerwacja pokoju (Copy)",
+        "conversation_flow_component_id": "component_6abefa9349bb",
+        "tools": [],
+        "begin_tag_display_position": {
+          "x": -357.75,
+          "y": -162
+        }
+      },
+      {
+        "start_node_id": "conversation-1766742630319",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje wiadomość"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o wiadomość, którą masz przekazać"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej informację, którą chciałby przekazać"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1606.239408731987,
+              "y": 99.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz wiadomość, którą masz przekazać recepcji, aby zweryfikować jej poprawność"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1974.767756605039,
+              "y": 552.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "user_modified_timestamp": 1766749367236,
+        "name": "Inna wiadomość odnośnie stolika - zbieranie informacji",
+        "conversation_flow_component_id": "component_d395547d4d8a",
+        "tools": []
+      },
+      {
+        "start_node_id": "node-1766749632829-copy-1766777140948",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958-copy-1766777140948",
+            "type": "end",
+            "display_position": {
+              "x": 6103.546971396719,
+              "y": -366.7220113677212
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688-copy-1766777140948",
+                "id": "edge-1766777140948-lznj7ceok",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin imprezy"
+                }
+              }
+            ],
+            "id": "node-1766741096658-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 765.0705507769321,
+              "y": -328.8229262027853
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin imprezy"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688-copy-1766777140948",
+                "id": "edge-1766777140948-g7z95yptn",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej kiedy będzie impreza"
+                }
+              }
+            ],
+            "id": "node-1766741150473-copy-1766777140948",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658-copy-1766777140948",
+              "id": "edge-1766777140948-vx8vt61n9",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 424.99616489705295,
+              "y": -634.1120858447102
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312-copy-1766777140948",
+                "id": "edge-1766777140948-zgfpnosc9",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570-copy-1766777140948",
+                "id": "edge-1766777140948-h0sgf7c24",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 1182.239408731987,
+              "y": -442.5025858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz termin imprezy, aby potwierdzić poprawność zebranych informacji"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688-copy-1766777140948",
+                "id": "edge-1766777140948-50liquqa9",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 1550.017756605039,
+              "y": 42.302735349157956
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958-copy-1766777140948",
+                "id": "edge-1766777140948-4g1m7nlf8",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904-copy-1766777140948",
+                "id": "edge-1766777140948-few8bnrn0",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 4866.833253831648,
+              "y": -481.36036409504976
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Rodzaj imprezy\n- Termin imprezy\n- Liczba osób\n- Imię i nazwisko/nazwa firmy organizującej imprezę\n- Specjalne wymagania"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904-copy-1766777140948",
+                "id": "edge-1766777140948-nsbuie7qf",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 5328.106950890658,
+              "y": 57.646085868513694
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746825394-copy-1766777140948",
+                "id": "edge-1766777140948-770m0wui9",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016-copy-1766777140948",
+                "id": "edge-1766777140948-qv4ium16w",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 2872.239408731987,
+              "y": -706.2525858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko/nazwę firmy, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983-copy-1766777140948",
+                "id": "edge-1766777140948-hg0ul49xr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 3166.017756605039,
+              "y": -139.19726465084204
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746706941-copy-1766777140948",
+                "id": "edge-1766777140948-un6gc0iie",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na ile osób będzie impreza"
+                }
+              }
+            ],
+            "id": "node-1766746581312-copy-1766777140948",
+            "else_edge": {
+              "destination_node_id": "node-1766746610364-copy-1766777140948",
+              "id": "edge-1766777140948-fmarem190",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1565.746164897053,
+              "y": -360.11208584471024
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312-copy-1766777140948",
+                "id": "edge-1766777140948-ikf7a47tu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje liczbę osób?"
+                }
+              }
+            ],
+            "id": "node-1766746610364-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 2019.8205507769321,
+              "y": 31.17707379721469
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Na ile osób będzie impreza?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746829303-copy-1766777140948",
+                "id": "edge-1766777140948-pr9ilmsck",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766746724998-copy-1766777140948",
+                "id": "edge-1766777140948-2fdo8lrcf",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766746706941-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 2018.7394087319872,
+              "y": -570.5025858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz liczbę gości, aby potwierdzić poprawność zebranych informacji"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746706941-copy-1766777140948",
+                "id": "edge-1766777140948-9ur5uet1y",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766746724998-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 2393.267756605039,
+              "y": -117.69726465084204
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766747031056-copy-1766777140948",
+                "id": "edge-1766777140948-9nltswle9",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766746825394-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 3555.3338016667008,
+              "y": -662.8492801481434
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj czy są jakieś specjalne wymagania, np. będzie potrzebny nocleg"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983-copy-1766777140948",
+                "id": "edge-1766777140948-g4zhu4wns",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko/nazwę firmy"
+                }
+              }
+            ],
+            "id": "conversation-1766746829303-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 2425.4234441365275,
+              "y": -603.4406017519368
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko, osoby organizującej imprezę.\n\nAlternatywnie zapytaj o nazwę firmy jeżeli to impreza firmowa"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904-copy-1766777140948",
+                "id": "edge-1766777140948-o32ytqnul",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766747061261-copy-1766777140948",
+                "id": "edge-1766777140948-4nqt0i3jo",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766747031056-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 3957.911200738425,
+              "y": -451.1738332163219
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz specjalne wymagania, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766747031056-copy-1766777140948",
+                "id": "edge-1766777140948-ibny3qdph",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766747061261-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 4291.911971827415,
+              "y": -51.041568399684934
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "else_edge": {
+              "destination_node_id": "node-1766749670295-copy-1766777140948",
+              "id": "edge-1766777140948-05kqiwr7r",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766749764746-copy-1766777140948",
+                "id": "edge-1766777140948-9lv9nb0al",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej rodzaj imprezy"
+                }
+              }
+            ],
+            "finetune_transition_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Dzień dobry, z tej strony wirtualna asystentka Hotelu Wartosław. W czym mogę pomóc?",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Dzień dobry, chciałbym zorganizować osiemnastkę",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1766777047847"
+              }
+            ],
+            "id": "node-1766749632829-copy-1766777140948",
+            "type": "branch",
+            "display_position": {
+              "x": -729.003835102947,
+              "y": -518.1120858447102
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766749632829-copy-1766777140948",
+                "id": "edge-1766777140948-duxbp3wzy",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje rodzaj imprezy"
+                }
+              }
+            ],
+            "id": "node-1766749670295-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": -353.6794492230679,
+              "y": -154.8229262027853
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o rodzaj imprezy, np. Konferencja, urodziny, rocznica, impreza firmowa, wesele, Warsztaty"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473-copy-1766777140948",
+                "id": "edge-1766777140948-qupzg75cb",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766749808110-copy-1766777140948",
+                "id": "edge-1766777140948-cifc8lz2a",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766749764746-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": -163.51059126801306,
+              "y": -736.5025858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz rodzaj imprezy, którą dzwoniący chce zorganizować, aby potwierdzić poprawność zebranych informacji"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766749764746-copy-1766777140948",
+                "id": "edge-1766777140948-9yaxpjyzd",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766749808110-copy-1766777140948",
+            "type": "conversation",
+            "display_position": {
+              "x": 77.76775660503904,
+              "y": -297.69726465084204
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766779207367",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766779207367",
+            "type": "conversation",
+            "display_position": {
+              "x": 271.2758474204942,
+              "y": 56.8298535884399
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": ""
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766780622210",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766780622210",
+            "type": "conversation",
+            "display_position": {
+              "x": 82.38450327543815,
+              "y": 101.98849281073323
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": ""
+            }
+          }
+        ],
+        "user_modified_timestamp": 1766781555371,
+        "name": "Organizacja imprezy - zbieranie informacji",
+        "conversation_flow_component_id": "cf-component-1766777140948",
+        "tools": [
+          {
+            "parameter_type": "json",
+            "method": "POST",
+            "description": "Przekaż informacje zebrane w trakcie rozmowy.",
+            "type": "custom",
+            "url": "https://afa9c318fd51.ngrok-free.app",
+            "tool_id": "tool-1766779435806",
+            "args_at_root": false,
+            "timeout_ms": 120000,
+            "name": "Send-Message",
+            "response_variables": {},
+            "parameters": {
+              "type": "object",
+              "required": [
+                "user_name",
+                "call_info"
+              ],
+              "properties": {
+                "call_info": {
+                  "type": "string",
+                  "description": "Wszystkie zebrane informacje"
+                },
+                "user_name": {
+                  "type": "string",
+                  "description": "imię i nazwisko dzwoniącego"
+                }
+              }
+            }
+          }
+        ],
+        "flex_mode": false,
+        "begin_tag_display_position": {
+          "x": -1120.75,
+          "y": -550
+        }
+      },
+      {
+        "start_node_id": "conversation-1766742630319",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje wiadomość"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o wiadomość, którą masz przekazać"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej informację, którą chciałby przekazać"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1606.239408731987,
+              "y": 99.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz wiadomość, którą masz przekazać recepcji, aby zweryfikować jej poprawność"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1974.767756605039,
+              "y": 552.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "user_modified_timestamp": 1766824460012,
+        "name": "inna wiadomość odnośnie stolika - zbieranie informacji",
+        "conversation_flow_component_id": "component_dd8f779a8543",
+        "tools": []
+      },
+      {
+        "begin_tag_display_position": {
+          "x": -589,
+          "y": -142
+        },
+        "conversation_flow_component_id": "component_66c4b7131fb0",
+        "name": "Inna wiadomość - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje wiadomość"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o wiadomość, którą masz przekazać"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej informację, którą chciałby przekazać"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1606.239408731987,
+              "y": 99.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz wiadomość, którą masz przekazać recepcji, aby zweryfikować jej poprawność"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1974.767756605039,
+              "y": 552.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108297,
+        "flex_mode": false
+      },
+      {
+        "conversation_flow_component_id": "component_0eb5226cd4df",
+        "name": "Inna wiadomość odnośnie stolika - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje wiadomość"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o wiadomość, którą masz przekazać"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej informację, którą chciałby przekazać"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1606.239408731987,
+              "y": 99.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz wiadomość, którą masz przekazać recepcji, aby zweryfikować jej poprawność"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1974.767756605039,
+              "y": 552.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108298,
+        "flex_mode": false
+      },
+      {
+        "conversation_flow_component_id": "component_bbd090161546",
+        "name": "Inna wiadomość o imprezie - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje wiadomość"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o wiadomość, którą masz przekazać"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej informację, którą chciałby przekazać"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741245688-1-bow97q1nr",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766741320570",
+                "id": "edge-1766741245688-0-a5l3ao91e",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766741245688",
+            "type": "conversation",
+            "display_position": {
+              "x": 1588.239408731987,
+              "y": 51.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz wiadomość, którą masz przekazać, aby zweryfikować jej poprawność"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741245688",
+                "id": "edge-1766741320570-0-gbojqnno6",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766741320570",
+            "type": "conversation",
+            "display_position": {
+              "x": 1974.767756605039,
+              "y": 552.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko/nazwę firmy"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "W zależności od tego czy to impreza firmowa czy osobista, zapytaj się odpowiednio o nazwę firmy lub imię i nazwisko osoby organizującej"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko lub nazwę firmy, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108298,
+        "begin_tag_display_position": {
+          "x": -310.75,
+          "y": -118
+        },
+        "flex_mode": false
+      },
+      {
+        "conversation_flow_component_id": "component_d159114dbaf1",
+        "name": "rezerwacja pokoju - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 3731.209500512644,
+              "y": -42.075175098050345
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766742630319",
+                "id": "edge-1766740626162",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766740626162",
+            "type": "conversation",
+            "display_position": {
+              "x": 1988.2343444402454,
+              "y": -96.45264707873841
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Czy pobyt będzie ze śniadaniem?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766740688507",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje liczbę i rodzaj pokoi"
+                }
+              }
+            ],
+            "id": "conversation-1766740688507",
+            "type": "conversation",
+            "display_position": {
+              "x": 277.9334273490491,
+              "y": 20.74707440576627
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o rodzaj pokoi i ich liczbę"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "node-1766740708435-edge-1766740720554-rwqggt65b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej ilość i rodzaj pokoi"
+                }
+              }
+            ],
+            "id": "node-1766740708435",
+            "else_edge": {
+              "destination_node_id": "conversation-1766740688507",
+              "id": "else-edge-1766740708435",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": -105.1684955186914,
+              "y": -148.11126898373445
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766740626162",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik termin rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766740626162",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na kiedy będzie rezerwacja"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "finetune_conversation_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Poproszę o jeden pokój jednoosobowy na jedną noc.",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Dobrze, pokój jednoosobowy na jedną noc. Czy może Pan podać dokładny termin pobytu?",
+                    "role": "agent"
+                  },
+                  {
+                    "content": "Z dzisiaj na jutro.",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Dobrze, czy pobyt będzie ze śniadaniem?",
+                    "role": "agent"
+                  },
+                  {
+                    "content": "Nie",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Rouzmiem. Na jakie nazwisko zrobić rezerwacje?",
+                    "role": "agent"
+                  },
+                  {
+                    "content": "Jan Michalak",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Jan Michalak, tak?",
+                    "role": "agent"
+                  },
+                  {
+                    "content": "Zgadza się",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Jasne. Podsumowując, chce pan zarezerwować jeden pokój jednoosobowy z dzisiaj na jutro, bez śniadania, na nazwisko Jan Michalak. Zgadza się?",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1767118867934"
+              }
+            ],
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Termin pobytu\n- Ilość i rodzaj pokoi\n- Czy pobyt ze śniadaniem\n- Imię i nazwisko na które dokonać rezerwację"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 3142.797955600418,
+              "y": -53.85900738746335
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 3661.9292798180113,
+              "y": 253.99265079666728
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 2317.9792788640643,
+              "y": 340.7041821184638
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Na jakie imię i nazwisko będzie rezerwacja?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 2695.989408731987,
+              "y": 19.497414186375153
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 3048.767756605039,
+              "y": 416.3027353491579
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "node-1766740708435",
+        "tools": [],
+        "user_modified_timestamp": 1771327108299,
+        "flex_mode": false
+      },
+      {
+        "begin_tag_display_position": {
+          "x": -172,
+          "y": -74
+        },
+        "conversation_flow_component_id": "component_10dd336f4fe8",
+        "name": "anulowanie rezerwacji - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na kiedy będzie rezerwacja"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "finetune_conversation_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Jasne. Podsumowując, chce pan anulować rezerwację na jeden pokój jednoosobowy z dzisiaj na jutro, na nazwisko Jan Michalak. Zgadza się?",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1767119092601"
+              }
+            ],
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Termin pobytu\n- Imię i nazwisko na które była rezerwacja"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2108.797955600418,
+              "y": -41.85900738746335
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2821.9292798180113,
+              "y": 413.99265079666725
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Bardzo nam przykro z tego powodu... Na jakie imię i nazwisko była rezerwacja?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108300
+      },
+      {
+        "conversation_flow_component_id": "component_59030fcd84f1",
+        "name": "rezerwacja stolika - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 5863.546971396719,
+              "y": -222.72201136772122
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin/dzień rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 536.5705507769321,
+              "y": 57.17707379721469
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin/dzień i godzinę rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na kiedy będzie rezerwacja"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 72.99616489705295,
+              "y": -354.11208584471024
+            }
+          },
+          {
+            "finetune_conversation_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Jasne. Podsumowując, chce pan zarezerwować jeden stolik dla dwóch osób na godzinę 16 dzisiaj, na nazwisko Jan Michalak. Na specjalne życzenie mają być zapalone świeczki. Zgadza się?",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1767119204969"
+              }
+            ],
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Termin i godzina rezerwacji\n- Liczba osób\n- Imię i nazwisko na które ma być zapisana rezerwacja\n- Specjalne wymagania"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 4866.833253831648,
+              "y": -481.36036409504976
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 5328.106950890658,
+              "y": 57.646085868513694
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746825394",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 2872.239408731987,
+              "y": -706.2525858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 3166.017756605039,
+              "y": -139.19726465084204
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746829303",
+                "id": "edge-1766746581312-0-2skfseb74",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej liczbę osób"
+                }
+              }
+            ],
+            "id": "node-1766746581312",
+            "else_edge": {
+              "destination_node_id": "node-1766746610364",
+              "id": "else_edge-1766746581312-1-b162cfdn9",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1387.746164897053,
+              "y": -362.11208584471024
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746829303",
+                "id": "edge-1766746610364-0-wo2cku3pv",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje liczbę osób?"
+                }
+              }
+            ],
+            "id": "node-1766746610364",
+            "type": "conversation",
+            "display_position": {
+              "x": 1705.8205507769321,
+              "y": 35.17707379721469
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Na ile osób będzie rezerwacja?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766746825394",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766746825394",
+            "type": "conversation",
+            "display_position": {
+              "x": 3555.3338016667008,
+              "y": -662.8492801481434
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj czy są jakieś specjalne wymagania, np. gość przyniesie swój własny tort, etc."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766746829303",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766746829303",
+            "type": "conversation",
+            "display_position": {
+              "x": 2425.4234441365275,
+              "y": -603.4406017519368
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Na jakie imię i nazwisko będzie rezerwacja?"
+            }
+          }
+        ],
+        "start_node_id": "node-1766741150473",
+        "tools": [],
+        "user_modified_timestamp": 1771327108301
+      },
+      {
+        "begin_tag_display_position": {
+          "x": -310,
+          "y": -186
+        },
+        "conversation_flow_component_id": "component_b92246228943",
+        "name": "anulowanie stolika - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin i godzinę rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o datę i godzinę rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na kiedy będzie rezerwacja"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "finetune_conversation_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Jasne. Podsumowując, chce pan anulować dzisiejszą rezerwację na godzinę szesnastą, na nazwisko Jan Michalak. Zgadza się?",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1767119290121"
+              }
+            ],
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Data i godzina rezerwacji\n- Imię i nazwisko na które była rezerwacja"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2108.797955600418,
+              "y": -41.85900738746335
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2821.9292798180113,
+              "y": 413.99265079666725
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Bardzo nam przykro z tego powodu... Na jakie imię i nazwisko była rezerwacja?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108302
+      },
+      {
+        "begin_tag_display_position": {
+          "x": -1236.5,
+          "y": -494
+        },
+        "conversation_flow_component_id": "component_3232105c1b98",
+        "name": "organizacja imprezy - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 5863.546971396719,
+              "y": -222.72201136772122
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin imprezy"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 765.0705507769321,
+              "y": -328.8229262027853
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin imprezy"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766746581312",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej kiedy będzie impreza"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 424.99616489705295,
+              "y": -634.1120858447102
+            }
+          },
+          {
+            "finetune_conversation_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Rozumiem. Podsumowując, chce pan zorganizować osiemnastkę osiemnastego czerwca dla 20 gości. Dodatkowym wymogiem jest nocleg dla 4 osób i tort, a nazwisko osoby organizującej to Jan Michalak. Zgadza się?",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1767119415955"
+              }
+            ],
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Rodzaj imprezy\n- Termin imprezy\n- Liczba osób\n- Imię i nazwisko/nazwa firmy organizującej imprezę\n- Specjalne wymagania"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 4866.833253831648,
+              "y": -481.36036409504976
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 5328.106950890658,
+              "y": 57.646085868513694
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746825394",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 2872.239408731987,
+              "y": -706.2525858136248
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko/nazwę firmy, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 3166.017756605039,
+              "y": -139.19726465084204
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746829303",
+                "id": "edge-1766746581312-0-2skfseb74",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej na ile osób będzie impreza"
+                }
+              }
+            ],
+            "id": "node-1766746581312",
+            "else_edge": {
+              "destination_node_id": "node-1766746610364",
+              "id": "else_edge-1766746581312-1-b162cfdn9",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1347.746164897053,
+              "y": -364.11208584471024
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766746829303",
+                "id": "edge-1766746610364-0-wo2cku3pv",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje liczbę osób?"
+                }
+              }
+            ],
+            "id": "node-1766746610364",
+            "type": "conversation",
+            "display_position": {
+              "x": 2019.8205507769321,
+              "y": 31.17707379721469
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się na ile osób będzie impreza?"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766746825394",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje informacje"
+                }
+              }
+            ],
+            "id": "conversation-1766746825394",
+            "type": "conversation",
+            "display_position": {
+              "x": 3555.3338016667008,
+              "y": -662.8492801481434
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj czy są jakieś specjalne wymagania, np. będzie potrzebny nocleg"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766746829303",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko/nazwę firmy"
+                }
+              }
+            ],
+            "id": "conversation-1766746829303",
+            "type": "conversation",
+            "display_position": {
+              "x": 2425.4234441365275,
+              "y": -603.4406017519368
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o imię i nazwisko, osoby organizującej imprezę.\n\nAlternatywnie zapytaj o nazwę firmy jeżeli to impreza firmowa"
+            }
+          },
+          {
+            "else_edge": {
+              "destination_node_id": "node-1766749670295",
+              "id": "else_edge-1766749632829-1-yhml252rn",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766749632829-0-7z12mk72g",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej rodzaj imprezy"
+                }
+              }
+            ],
+            "finetune_transition_examples": [
+              {
+                "transcript": [
+                  {
+                    "content": "Dzień dobry, z tej strony wirtualna asystentka Hotelu Wartosław. W czym mogę pomóc?",
+                    "role": "user"
+                  },
+                  {
+                    "content": "Dzień dobry, chciałbym zorganizować osiemnastkę",
+                    "role": "agent"
+                  }
+                ],
+                "id": "fe-1766777047847"
+              }
+            ],
+            "id": "node-1766749632829",
+            "type": "branch",
+            "display_position": {
+              "x": -843.003835102947,
+              "y": -520.1120858447102
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766749670295-0-fesv96agh",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje rodzaj imprezy"
+                }
+              }
+            ],
+            "id": "node-1766749670295",
+            "type": "conversation",
+            "display_position": {
+              "x": -353.6794492230679,
+              "y": -154.8229262027853
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o rodzaj imprezy, np. Konferencja, urodziny, rocznica, impreza firmowa, wesele, Warsztaty"
+            }
+          }
+        ],
+        "start_node_id": "node-1766749632829",
+        "tools": [],
+        "user_modified_timestamp": 1771327108303
+      },
+      {
+        "begin_tag_display_position": {
+          "x": -228,
+          "y": -74
+        },
+        "conversation_flow_component_id": "component_db701814810b",
+        "name": "anulowanie imprezy - zbieranie informacji",
+        "nodes": [
+          {
+            "name": "Exit Component",
+            "id": "component-end-1764692833958",
+            "type": "end",
+            "display_position": {
+              "x": 2631.959500512644,
+              "y": 133.92482490194965
+            },
+            "instruction": {
+              "type": "static_text",
+              "text": "Component completed"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741096658-0-ilyc4keed",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje termin rezerwacji"
+                }
+              }
+            ],
+            "id": "node-1766741096658",
+            "type": "conversation",
+            "display_position": {
+              "x": 1448.5705507769321,
+              "y": 613.1770737972147
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się o termin rezerwacji"
+            }
+          },
+          {
+            "name": "Logic Split",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766741150473-0-zp04btv32",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Gość podał już wcześniej kiedy miała się odbyć impreza"
+                }
+              }
+            ],
+            "id": "node-1766741150473",
+            "else_edge": {
+              "destination_node_id": "node-1766741096658",
+              "id": "else_edge-1766741150473-1-ii20ry3qg",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Else"
+              }
+            },
+            "type": "branch",
+            "display_position": {
+              "x": 1101.246164897053,
+              "y": 225.88791415528974
+            }
+          },
+          {
+            "instruction": {
+              "type": "static_text",
+              "text": "Proszę wprowadzić numer na klawiaturze"
+            },
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741434098",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Describe the transition condition"
+                }
+              }
+            ],
+            "id": "conversation-1766741434098",
+            "type": "conversation",
+            "display_position": {
+              "x": 2843.2267020431373,
+              "y": -1098.2207927218408
+            },
+            "skip_response_edge": {
+              "id": "edge-1766741754579",
+              "transition_condition": {
+                "type": "prompt",
+                "prompt": "Skip response"
+              }
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "id": "edge-1766741436133",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że tak"
+                }
+              },
+              {
+                "id": "conversation-1766741436133-edge-1766741687149-zs5pe8y2p",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Dzwoniący mówi, że nie"
+                }
+              }
+            ],
+            "id": "conversation-1766741436133",
+            "type": "conversation",
+            "display_position": {
+              "x": 2519.3072508178216,
+              "y": -1293.4761003707492
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Zapytaj się, czy numer z którego gość dzwoni możemy zapisać jako numer kontaktowy"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "component-end-1764692833958",
+                "id": "edge-1766741438904",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik potwierdza informacje"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742210904",
+                "id": "conversation-1766741438904-edge-1766742197193-gni5jv7xw",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "conversation-1766741438904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2108.797955600418,
+              "y": -41.85900738746335
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Podsumuj wszystkie informacje, aby potwierdzić ich poprawność:\n- Termin imprezy\n- Imię i nazwisko/nazwa firmy, która organizowała imprezę"
+            }
+          },
+          {
+            "delay_ms": 1000,
+            "instruction": {
+              "type": "prompt",
+              "text": "Navigate to the human agent of customer support department"
+            },
+            "name": "Press Digit",
+            "edges": [],
+            "id": "node-1766741588538",
+            "type": "press_digit",
+            "display_position": {
+              "x": 3143.4719522269093,
+              "y": -774.2135600885968
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "conversation-1766741438904",
+                "id": "edge-1766742210904-0-89mgwih4t",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742210904",
+            "type": "conversation",
+            "display_position": {
+              "x": 2821.9292798180113,
+              "y": 413.99265079666725
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742630319",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik podaje imię i nazwisko/nazwę firmy"
+                }
+              }
+            ],
+            "id": "conversation-1766742630319",
+            "type": "conversation",
+            "display_position": {
+              "x": 37.22927886406433,
+              "y": -155.2958178815362
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Powiedz: \"Bardzo nam przykro z tego powodu...\", w zależności od tego czy to impreza firmowa czy osobista, zapytaj się odpowiednio o nazwę firmy lub imię i nazwisko osoby organizującej"
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766741150473",
+                "id": "edge-1766742729983-0-u5bg91ytu",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik potwierdza poprawność"
+                }
+              },
+              {
+                "destination_node_id": "node-1766742758016",
+                "id": "edge-1766742729983-1-lmkp19q25",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkownik zgłasza błąd"
+                }
+              }
+            ],
+            "id": "node-1766742729983",
+            "type": "conversation",
+            "display_position": {
+              "x": 596.4894087319872,
+              "y": 63.49741418637515
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Przytocz imię i nazwisko lub nazwę firmy, aby zweryfikować poprawność danych."
+            }
+          },
+          {
+            "name": "Conversation",
+            "edges": [
+              {
+                "destination_node_id": "node-1766742729983",
+                "id": "edge-1766742758016-0-gcbx0fx9b",
+                "transition_condition": {
+                  "type": "prompt",
+                  "prompt": "Użytkonwik ponownie podaje informacje"
+                }
+              }
+            ],
+            "id": "node-1766742758016",
+            "type": "conversation",
+            "display_position": {
+              "x": 1011.5177566050388,
+              "y": 590.302735349158
+            },
+            "instruction": {
+              "type": "prompt",
+              "text": "Poproś o poprawne informacje"
+            }
+          }
+        ],
+        "start_node_id": "conversation-1766742630319",
+        "tools": [],
+        "user_modified_timestamp": 1771327108304
+      }
+    ],
+    "start_node_id": "start-node-1765130581633",
+    "start_speaker": "agent",
+    "tools": [
+      {
+        "parameter_type": "form",
+        "method": "POST",
+        "description": "Przekaż informacje zebrane w trakcie rozmowy.",
+        "type": "custom",
+        "url": "https://afa9c318fd51.ngrok-free.app",
+        "tool_id": "tool-1765137416900",
+        "args_at_root": false,
+        "timeout_ms": 120000,
+        "name": "Send-Message",
+        "response_variables": {},
+        "parameters": {
+          "type": "object",
+          "required": [
+            "user_name",
+            "call_info"
+          ],
+          "properties": {
+            "call_info": {
+              "type": "string",
+              "description": "Wszystkie zebrane informacje"
+            },
+            "user_name": {
+              "type": "string",
+              "description": "imię i nazwisko dzwoniącego"
+            }
+          }
+        }
+      }
+    ],
+    "model_choice": {
+      "type": "cascading",
+      "model": "gemini-2.5-flash",
+      "high_priority": false
+    },
+    "tool_call_strict_mode": true,
+    "default_dynamic_variables": {
+      "page_id": "1050756794934919",
+      "api_version": "v24.0",
+      "token": "EAAMTNjrONMgBQJHAZBTSlMY2EU5d6VZBD6WoPnGyQq2jieGdETW68bgptfX88BTYyI1FV8wW1DN5T5Xw6HlyTjh6z5RaZA1Hy7dsnnAo3ZBVdZCLfJemJU5IOrUcyziZCaCNGDBGWsTGVGsbfRDAnuFTlHvZB4kfrAYAw6wgn1q6CTh3nexZBZA8efvLZBBMYPYsWsYvjychTHwAZDZD",
+      "recipient_id": "24735039946173241"
+    },
+    "knowledge_base_ids": [
+      "knowledge_base_f59a3d5849f2f7c3"
+    ],
+    "kb_config": {
+      "top_k": 3,
+      "filter_score": 0.4
+    },
+    "begin_tag_display_position": {
+      "x": -258,
+      "y": 355
+    },
+    "is_published": false,
+    "flex_mode": false
+  }
+}
