@@ -77,7 +77,7 @@ srf.invite(async (req, res) => {
 
     // --- FIXED SECURITY CHECK ---
     // We compare against the IP (SIP_IPV4), not the Realm/Domain.
-    if (sourceIp !== SIP_IPV4) {
+    if (![SIP_REALM, SIP_IPV4].includes(sourceIp)) {
         logger.warn(`[SECURITY] REJECTED: Source IP ${sourceIp} does not match Provider IP ${SIP_IPV4}`);
         return res.send(403, 'Forbidden');
     }
