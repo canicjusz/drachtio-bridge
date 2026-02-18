@@ -73,7 +73,7 @@ srf.invite(async (req, res) => {
     const sourceIp = req.source_address;
 
     // SECURITY: Reject ghost calls from scanners
-    if (sourceIp !== SIP_IPV4) {
+    if (sourceIp !== SIP_REALM) {
         logger.warn(`BLOCKED: SIP Scanner attempt from ${sourceIp}`);
         return res.send(403);
     }
