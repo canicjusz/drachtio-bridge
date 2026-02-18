@@ -39,8 +39,14 @@ srf.connect({
 const aor = `sip:${SIP_USERNAME}@${SIP_REALM}`;
 
 // Register with Provider
+// At the top of your file
 async function doRegister(srf) {
+    // Generate a human-readable timestamp for the attempt
+    const timestamp = new Date().toLocaleString();
+
     try {
+        logger.info(`[${timestamp}] [REGISTRATION] Starting attempt for ${aor}...`);
+
         const req = await srf.request(aor, {
             method: 'REGISTER',
             proxy: `sip:${SIP_IPV4}:${SIP_PORT}`,
@@ -51,16 +57,33 @@ async function doRegister(srf) {
             },
             auth: { username: SIP_USERNAME, password: SIP_PASSWORD }
         });
+
         req.on('response', (res) => {
-            logger.info(`[REGISTRATION] Status: ${res.status} ${res.reason}`);
+            const responseTime = new Date().toLocaleString();
+            logger.info(`[${responseTime}] [REGISTRATION] Status: ${res.status} ${res.reason}`);
+
             if (res.status === 200) {
-                setTimeout(() => doRegister(srf), (DEFAULT_EXPIRES / 2) * 1000);
-            } else if (res.status === 401 || res.status === 407) {
-                logger.warn(`[REGISTRATION] Challenged for authentication...`);
+                // Determine actual expires from header or fallback to our constant
+                const expiresHeader = res.get('Expires');
+                const expiresValue = parseInt(expiresHeader) || DEFAULT_EXPIRES;
+
+                // Calculate half-life for re-registration
+                const nextAttemptMs = (expiresValue / 2) * 1000;
+                const nextAttemptDate = new Date(Date.now() + nextAttemptMs).toLocaleString();
+
+                logger.info(`[${responseTime}] [REGISTRATION] Success. Next renewal scheduled for: ${nextAttemptDate}`);
+
+                setTimeout(() => doRegister(srf), nextAttemptMs);
+            }
+            else if (res.status === 401 || res.status === 407) {
+                logger.warn(`[${responseTime}] [REGISTRATION] Challenged. Check credentials or Drachtio auth handler.`);
             }
         });
     } catch (err) {
-        logger.error(`Registration failed: ${err.message}`);
+        const errorTime = new Date().toLocaleString();
+        logger.error(`[${errorTime}] [REGISTRATION] CRITICAL ERROR: ${err.message}`);
+
+        // Back off for 30 seconds if the connection fails
         setTimeout(() => doRegister(srf), 30000);
     }
 }
