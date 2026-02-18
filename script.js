@@ -65,6 +65,7 @@ async function doRegister(srf) {
             if (res.status === 200) {
                 // Determine actual expires from header or fallback to our constant
                 const expiresHeader = res.get('Expires');
+                logger.info(`Returned expires header: ${expiresHeader}`)
                 const expiresValue = parseInt(expiresHeader) || DEFAULT_EXPIRES;
 
                 // Calculate half-life for re-registration
