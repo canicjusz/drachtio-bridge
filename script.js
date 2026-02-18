@@ -52,9 +52,11 @@ async function doRegister(srf) {
             auth: { username: SIP_USERNAME, password: SIP_PASSWORD }
         });
         req.on('response', (res) => {
+            logger.info(`[REGISTRATION] Status: ${res.status} ${res.reason}`);
             if (res.status === 200) {
-                logger.info(`Successfully registered as ${aor}`);
                 setTimeout(() => doRegister(srf), (DEFAULT_EXPIRES / 2) * 1000);
+            } else if (res.status === 401 || res.status === 407) {
+                logger.warn(`[REGISTRATION] Challenged for authentication...`);
             }
         });
     } catch (err) {
